@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나에게 어울리는 K-POP 곡 찾기 | VIBE MATCH</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans KR', 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .sky-gradient {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
+    }
+    .sky-badge-gradient {
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    }
+    .soft-shadow {
+      box-shadow: 0 15px 35px -5px rgba(14, 165, 233, 0.15), 0 5px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+    .vinyl-spin {
+      animation: spin 10s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 text-slate-800 flex flex-col justify-between selection:bg-sky-400 selection:text-white relative overflow-x-hidden">
+
+  <!-- Background decorative cloud/sky blur orbs -->
+  <div class="fixed top-[-10%] left-[-15%] w-[420px] h-[420px] bg-sky-300/40 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+  <div class="fixed top-[40%] right-[-15%] w-[380px] h-[380px] bg-cyan-200/50 rounded-full blur-[90px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-[-10%] left-[10%] w-[350px] h-[350px] bg-blue-200/40 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+  <!-- Mobile Wrapper (Max Width: 430px) -->
+  <div class="w-full max-w-[430px] mx-auto min-h-screen flex flex-col px-4 py-5">
+
+    <!-- Header -->
+    <header class="w-full flex items-center justify-between mb-4 px-1">
+      <div class="flex items-center space-x-2.5 cursor-pointer" onclick="resetApp()">
+        <div class="w-9 h-9 rounded-xl sky-gradient flex items-center justify-center text-white shadow-md shadow-sky-400/30">
+          <i class="fa-solid fa-cloud text-lg"></i>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-sky-600">GSA Team DSWU</span>
+          <h1 class="text-base font-black tracking-tight text-slate-800">나와 어울리는 케이팝 찾기</h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="text-[11px] px-2.5 py-1 rounded-full bg-white/80 border border-sky-200 text-sky-700 font-medium shadow-sm flex items-center gap-1">
+          <i class="fa-solid fa-sparkles text-sky-500"></i>Gemini
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 flex flex-col justify-center">
+
+      <!-- Screen 1: Intro & Idol Preference -->
+      <div id="step-intro" class="glass-card rounded-3xl p-6 soft-shadow border border-white/80 space-y-6">
+        <div class="text-center space-y-3">
+          <span class="inline-block py-1 px-3 rounded-full sky-badge-gradient text-sky-700 font-bold text-xs">
+            ☁️ 나와 찰떡인 K-POP은?
+          </span>
+          <h2 class="text-2xl font-black text-slate-900 leading-snug">
+            지금 나와 딱 맞는<br>
+            <span class="text-transparent bg-clip-text sky-gradient">K-POP 추천 테스트</span>
+          </h2>
+          <p class="text-slate-600 text-xs leading-relaxed">
+            당신의 기분과 순간을 진단하여 가장 어울리는 노래를<br>제미나이가 추천해드립니다.
+          </p>
+        </div>
+
+        <!-- Favorite Idol Input -->
+        <div class="space-y-3 bg-sky-50/70 p-4 rounded-2xl border border-sky-100">
+          <label for="favorite-idol" class="block text-xs font-bold text-slate-700">
+            <i class="fa-solid fa-heart text-sky-500 mr-1"></i>좋아하는 아이돌이 있나요?
+            <span class="text-[11px] text-slate-400 font-normal ml-1">(선택)</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="favorite-idol" 
+              placeholder="예: 세븐틴, 뉴진스, NCT, 아이브"
+              class="w-full px-3.5 py-3 pl-10 rounded-xl bg-white border border-sky-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm font-medium"
+            >
+            <i class="fa-solid fa-microphone absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+          </div>
+          <p class="text-[11px] text-sky-600/90 leading-tight">
+            💡 비워두시면 전체 K-POP 아이돌 중에서 가장 어울리는 곡을 찾아드려요!
+          </p>
+        </div>
+
+        <button 
+          onclick="startQuiz()" 
+          class="w-full py-3.5 px-5 rounded-2xl sky-gradient text-white font-bold text-sm shadow-lg shadow-sky-400/25 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+        >
+          <span>테스트 시작하기</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Screen 2: Questionnaire -->
+      <div id="step-quiz" class="hidden glass-card rounded-3xl p-6 soft-shadow border border-white/80 space-y-5">
+        <!-- Progress Bar -->
+        <div>
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-1.5">
+            <span id="question-count" class="text-sky-700">Q1 of 5</span>
+            <span id="progress-percent" class="text-sky-600 font-extrabold">20%</span>
+          </div>
+          <div class="w-full h-1.5 bg-sky-100 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full sky-gradient transition-all duration-300" style="width: 20%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="min-h-[290px] flex flex-col justify-between">
+          <div class="space-y-2 mb-4">
+            <span id="question-category" class="inline-block py-0.5 px-2.5 rounded-lg bg-sky-100 text-sky-700 text-[11px] font-bold">
+              감정 상태
+            </span>
+            <h3 id="question-text" class="text-lg font-bold text-slate-900 leading-snug">
+              지금 당신의 기분이나 에너지 상태는 어떤가요?
+            </h3>
+          </div>
+
+          <!-- Options Container -->
+          <div id="options-container" class="space-y-2.5 mb-2">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 3: Loading Screen -->
+      <div id="step-loading" class="hidden glass-card rounded-3xl p-8 soft-shadow border border-white/80 text-center space-y-5">
+        <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
+          <div class="w-20 h-20 rounded-full sky-gradient flex items-center justify-center text-white text-3xl shadow-lg shadow-sky-400/40 vinyl-spin">
+            <i class="fa-solid fa-compact-disc"></i>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-xl font-black text-slate-800">찰떡 K-POP 찾는 중...</h3>
+          <p id="loading-subtext" class="text-slate-600 text-xs leading-relaxed">
+            음원 사이트 공식 발매곡 중에서<br>당신의 무드와 가장 어울리는 노래를 탐색하고 있어요.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-center gap-1.5 pt-1">
+          <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+          <span class="w-2 h-2 rounded-full bg-sky-500 animate-ping" style="animation-delay: 0.2s;"></span>
+          <span class="w-2 h-2 rounded-full bg-sky-600 animate-ping" style="animation-delay: 0.4s;"></span>
+        </div>
+      </div>
+
+      <!-- Screen 4: Result Screen -->
+      <div id="step-result" class="hidden glass-card rounded-3xl p-5 soft-shadow border border-white/80 space-y-4">
+        
+        <!-- Top Theme Tag -->
+        <div class="text-center space-y-1">
+          <span class="inline-flex items-center gap-1 py-0.5 px-3 rounded-full bg-sky-100 text-sky-700 font-bold text-[11px]">
+            <i class="fa-solid fa-music"></i> 오늘의 추천곡
+          </span>
+          <h2 id="result-reason-title" class="text-base font-black text-slate-800">
+            "시원한 하늘 아래 바람을 맞는 청량함"
+          </h2>
+        </div>
+
+        <!-- Music Card (Clean No-Cover Design) -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-sky-100 space-y-4">
+          
+          <!-- Track Info Header -->
+          <div class="flex items-center gap-3.5 border-b border-slate-100 pb-4">
+            <div class="w-13 h-13 w-12 h-12 rounded-2xl sky-gradient flex items-center justify-center text-white text-xl shadow-md shadow-sky-300/50 flex-shrink-0">
+              <i class="fa-solid fa-compact-disc"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <span id="result-genre" class="text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full inline-block mb-1">
+                K-POP
+              </span>
+              <h3 id="result-title" class="text-lg font-black text-slate-900 truncate leading-snug">
+                소용돌이
+              </h3>
+              <p id="result-artist" class="text-xs font-bold text-slate-600 truncate">
+                세븐틴 (SEVENTEEN)
+              </p>
+            </div>
+          </div>
+
+          <!-- Highlight Lyrics -->
+          <div class="bg-sky-50/70 rounded-xl p-3.5 border-l-4 border-sky-400">
+            <div class="text-[10px] font-bold text-sky-600 mb-1 flex items-center gap-1">
+              <i class="fa-solid fa-quote-left text-sky-400 text-xs"></i> 하이라이트 감성 가사
+            </div>
+            <p id="result-lyrics" class="text-sm font-bold text-slate-800 leading-snug">
+              "어쩌다 마주친 그 많은 날들이 소용돌이쳐도"
+            </p>
+          </div>
+
+          <!-- Curator Comment -->
+          <div class="text-xs text-slate-600 space-y-1 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+            <div class="font-bold text-slate-700 flex items-center gap-1 text-[11px]">
+              <i class="fa-solid fa-wand-magic-sparkles text-sky-500"></i> 제미나이의 추천 이유
+            </div>
+            <p id="result-description" class="leading-relaxed text-[11px] text-slate-600">
+              답변해주신 감정선과 분위기에 꼭 들어맞는 멜로디와 서사를 지닌 곡입니다.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons (Mobile-friendly Stack) -->
+        <div class="space-y-2 pt-1">
+          <button 
+            onclick="searchSong()" 
+            class="w-full py-3 px-4 rounded-xl sky-gradient text-white font-bold text-xs shadow-md shadow-sky-400/20 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+          >
+            <i class="fa-brands fa-youtube text-sm"></i>
+            <span>유튜브에서 노래 듣기</span>
+          </button>
+
+          <div class="flex gap-2">
+            <button 
+              onclick="copyResult()" 
+              class="flex-1 py-2.5 px-3 rounded-xl bg-white text-sky-700 font-bold text-xs border border-sky-200 hover:bg-sky-50 transition-all flex items-center justify-center gap-1.5 shadow-sm"
+            >
+              <i class="fa-solid fa-share-nodes text-xs"></i>
+              <span id="copy-btn-text">결과 복사</span>
+            </button>
+
+            <button 
+              onclick="resetApp()" 
+              class="py-2.5 px-4 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs hover:bg-slate-200 transition-all flex items-center justify-center gap-1"
+            >
+              <i class="fa-solid fa-rotate-right text-xs"></i>
+              <span>다시하기</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-4 text-[10px] text-slate-400">
+      <p>© 2026 K-POP Vibe Matcher. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Script Logic -->
+  <script>
+    // Self-Diagnosis Quiz Data
+    const questions = [
+      {
+        category: "현재 무드 & 감정",
+        text: "오늘 하루, 당신의 마음 상태를 가장 잘 표현하는 것은?",
+        options: [
+          { label: "에너지 충전 필요! 텐션을 확 끌어올리고 싶어", vibe: "신나고 경쾌한 댄스곡, 빠른 비트, 활기참" },
+          { label: "조용히 위로받고 혼자 차분해지고 싶은 기분", vibe: "따뜻한 위로, 서정적인 감성, 어쿠스틱/발라드, 힐링" },
+          { label: "설레고 두근거리는 로맨틱한 분위기", vibe: "설렘, 첫사랑, 달콤한 멜로디, 풋풋함" },
+          { label: "당당하고 멋있게! 세상의 주인공이 된 느낌", vibe: "자신감, 걸크러시/보이크러시, 당당함, 묵직한 힙합/일렉트로닉" }
+        ]
+      },
+      {
+        category: "상황 및 공간",
+        text: "이 노래를 들을 장소나 상황은 어디인가요?",
+        options: [
+          { label: "달리는 차 안 or 이어폰 끼고 밤 산책할 때", vibe: "드라이브, 밤공기, 새벽 감성, 몽환적인 멜로디" },
+          { label: "운동할 때 or 신나게 외출 준비할 때", vibe: "운동, 파워풀한 리듬, 동기부여, 흥겨움" },
+          { label: "방 안에서 은은한 무드등 켜두고 쉴 때", vibe: "방구석 칠링, 편안한 이지리스닝, 로파이, R&B" },
+          { label: "맑은 하늘 아래 카페나 야외 테라스", vibe: "청량감, 맑은 하늘, 커피, 산뜻한 바람" }
+        ]
+      },
+      {
+        category: "선호하는 음악 색깔",
+        text: "가장 귀에 꽂히는 음악적 특징은 무엇인가요?",
+        options: [
+          { label: "웅장한 비트와 벅차오르는 사운드", vibe: "벅차오르는 감정선, 밴드 사운드 또는 강렬한 신스 비트" },
+          { label: "청량하고 시원하게 뻗어 나가는 보컬", vibe: "청량 보컬, 사이다 고음, 맑고 투명한 느낌" },
+          { label: "그루브 넘치고 세련된 R&B / 힙합 비트", vibe: "세련된 그루브, 트렌디한 비트, 감각적인 톤" },
+          { label: "아련하고 멜로디가 예쁜 아날로그/Y2K 감성", vibe: "아련함, 노스탤지어, 레트로 감성, 멜로디 위주" }
+        ]
+      },
+      {
+        category: "가사 스타일",
+        text: "어떤 메시지를 담은 가사가 끌리나요?",
+        options: [
+          { label: "누가 뭐래도 난 나답게 살아갈 거야! (자신감)", vibe: "자존감, 주체적인 삶, 성장과 도전" },
+          { label: "너를 생각하면 가슴이 터질 것 같아 (사랑/설렘)", vibe: "사랑의 고백, 청춘의 사랑, 애틋함" },
+          { label: "지친 너를 내가 안아줄게, 수고했어 (공감/힐링)", vibe: "지친 마음 위로, 공감, 수고했어, 곁에 있어줌" },
+          { label: "시공간을 초월한 벅차고 아련한 이야기", vibe: "서사적인 세계관, 인연, 운명, 아련한 회상" }
+        ]
+      },
+      {
+        category: "계절감 & 날씨",
+        text: "지금 떠오르는 날씨나 계절의 풍경은?",
+        options: [
+          { label: "창밖에 비가 촉촉하게 내리는 차분한 날", vibe: "비 오는 날, 빗소리, 센티멘털" },
+          { label: "햇살이 눈부시게 쏟아지는 푸른 초여름", vibe: "초여름 햇살, 푸른 바다, 청춘의 한 페이지" },
+          { label: "선선한 가을바람이 부는 노을 지는 저녁", vibe: "가을 노을, 선선한 바람, 감성 충전" },
+          { label: "차갑지만 포근한 코트를 입은 겨울밤", vibe: "겨울밤의 온기, 포근함, 따뜻한 멜로디" }
+        ]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let favoriteIdol = "";
+    let recommendedSongData = null;
+
+    // View Navigation
+    function showStep(stepId) {
+      ['step-intro', 'step-quiz', 'step-loading', 'step-result'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(stepId).classList.remove('hidden');
+    }
+
+    function startQuiz() {
+      favoriteIdol = document.getElementById('favorite-idol').value.trim();
+      currentQuestionIndex = 0;
+      userAnswers = [];
+      showStep('step-quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestionIndex];
+      const total = questions.length;
+
+      document.getElementById('question-count').innerText = `Q${currentQuestionIndex + 1} of ${total}`;
+      const percent = Math.round(((currentQuestionIndex + 1) / total) * 100);
+      document.getElementById('progress-percent').innerText = `${percent}%`;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+
+      document.getElementById('question-category').innerText = q.category;
+      document.getElementById('question-text').innerText = q.text;
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl bg-white/90 border border-sky-100 hover:border-sky-400 hover:bg-sky-50/70 hover:shadow-sm transition-all flex items-center justify-between group cursor-pointer";
+        btn.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-6 h-6 rounded-lg bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white transition-colors">
+              ${idx + 1}
+            </span>
+            <span class="text-xs font-semibold text-slate-800 group-hover:text-sky-700 transition-colors">
+              ${opt.label}
+            </span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:text-sky-500 group-hover:translate-x-0.5 transition-all"></i>
+        `;
+        btn.onclick = () => selectOption(opt);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectOption(option) {
+      userAnswers.push(option.vibe);
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        processRecommendation();
+      }
+    }
+
+    // Call Gemini API with Exponential Backoff
+    async function fetchWithRetry(url, options, maxRetries = 3) {
+      let delay = 1000;
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          const res = await fetch(url, options);
+          if (res.ok) return await res.json();
+          if (res.status === 429) {
+            await new Promise(r => setTimeout(r, delay));
+            delay *= 2;
+            continue;
+          }
+          throw new Error(`HTTP Error ${res.status}`);
+        } catch (err) {
+          if (i === maxRetries - 1) throw err;
+          await new Promise(r => setTimeout(r, delay));
+          delay *= 2;
+        }
+      }
+    }
+
+    async function processRecommendation() {
+      showStep('step-loading');
+      const vibesCombined = userAnswers.join(", ");
+      
+      const promptInstructions = `
+        당신은 대한민국 최고의 K-POP A&R 및 음원 데이터베이스 전문가입니다.
+        사용자의 취향 진단 결과: [${vibesCombined}]
+        사용자가 지정한 최애 아이돌: [${favoriteIdol || "지정 안 함 (모든 K-POP 아이돌/아티스트 중 가장 적합한 노래 선정)"}].
+
+        [중요 지침 - 노래 제목 및 공식 표기 규칙]:
+        1. 반드시 멜론(Melon), 지니(Genie) 등 대한민국 대표 음원 스트리밍 사이트에 공식 발매 등록된 '정확한 공식 곡 제목'만 작성하세요.
+        2. 임의로 영문 제목을 한국어로 번역하거나, 한국어 제목을 영어로 번역하지 마세요. (예: 세븐틴 노래는 "소용돌이"가 공식 제목이며, '너에게'나 'To You'를 자의적으로 덧붙이거나 번역하면 안 됩니다.)
+        3. 아이돌을 입력했다면 해당 아이돌의 타이틀곡 또는 대표 수록곡 중 실제 존재하는 곡을 선정하세요.
+        4. 아이돌을 입력하지 않았다면, 1세대부터 5세대까지의 K-POP 곡 중 분위기에 가장 잘 맞는 명곡을 선정하세요.
+        5. 'highlightLyrics'는 저작권 보호 및 감성 전달을 위해 그 곡의 분위기를 가장 잘 나타내는 상징적인 '예쁜 가사 1~2줄'(최대 1문장 내외)만 정확하게 인용하세요.
+
+        반드시 아래 JSON Schema 구조로만 응답하세요.
+      `;
+
+      try {
+        const apiKey = "AQ.Ab8RN6JvWBBzWHL4BHnn0W8vw-BOkAmiCNpQl78nBv5RMn9K_A";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        const payload = {
+          contents: [{ parts: [{ text: promptInstructions }] }],
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "OBJECT",
+              properties: {
+                title: { type: "STRING", description: "멜론 등 음원 사이트에 등록된 정확한 공식 곡 제목 (임의 번역 금지)" },
+                artist: { type: "STRING", description: "가수/그룹 공식 활동명 (예: 세븐틴, NewJeans, 태연 등)" },
+                genre: { type: "STRING", description: "장르 및 무드 요약 (예: K-POP • 댄스/팝, K-POP • 감성 R&B)" },
+                themeTitle: { type: "STRING", description: "추천 무드를 표현하는 감성적인 한 줄 카피 (15자 내외)" },
+                highlightLyrics: { type: "STRING", description: "곡의 가장 예쁘고 인상적인 하이라이트 가사 한 줄" },
+                curatorComment: { type: "STRING", description: "이 곡이 왜 사용자에게 어울리는지 설명하는 다정한 큐레이터 코멘트 (2문장 내외)" }
+              },
+              required: ["title", "artist", "genre", "themeTitle", "highlightLyrics", "curatorComment"]
+            }
+          }
+        };
+
+        const result = await fetchWithRetry(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!jsonText) throw new Error("추천 데이터를 받지 못했습니다.");
+        
+        recommendedSongData = JSON.parse(jsonText);
+        renderResult(recommendedSongData);
+
+      } catch (error) {
+        console.error("추천 오류:", error);
+        fallbackResult();
+      }
+    }
+
+    function renderResult(data) {
+      document.getElementById('result-reason-title').innerText = `"${data.themeTitle}"`;
+      document.getElementById('result-genre').innerText = data.genre;
+      document.getElementById('result-title').innerText = data.title;
+      document.getElementById('result-artist').innerText = data.artist;
+      document.getElementById('result-lyrics').innerText = `"${data.highlightLyrics}"`;
+      document.getElementById('result-description').innerText = data.curatorComment;
+
+      showStep('step-result');
+    }
+
+    function fallbackResult() {
+      const fallback = {
+        title: favoriteIdol ? "소용돌이" : "Ditto",
+        artist: favoriteIdol || "NewJeans",
+        genre: "K-POP • Pop",
+        themeTitle: "마음을 어루만져 주는 따뜻하고 청량한 바람",
+        highlightLyrics: favoriteIdol ? "바람을 타고 날아온 그대의 온기처럼" : "Stay in the middle, Like you a little",
+        curatorComment: "선택해주신 무드에 맞추어 하루를 빛내줄 아름다운 감성과 멜로디의 곡을 추천해 드립니다."
+      };
+      recommendedSongData = fallback;
+      renderResult(fallback);
+    }
+
+    function searchSong() {
+      if (!recommendedSongData) return;
+      const query = encodeURIComponent(`${recommendedSongData.artist} ${recommendedSongData.title}`);
+      window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+    }
+
+    function copyResult() {
+      if (!recommendedSongData) return;
+      const textToCopy = `[☁️ 나와 어울리는 K-POP 추천]\n\n곡명: ${recommendedSongData.artist} - ${recommendedSongData.title}\n가사: "${recommendedSongData.highlightLyrics}"\n무드: ${recommendedSongData.themeTitle}\n\n지금 유튜브에서 들어보세요!`;
+      
+      const tempInput = document.createElement('textarea');
+      tempInput.value = textToCopy;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      const btnText = document.getElementById('copy-btn-text');
+      const originalText = btnText.innerText;
+      btnText.innerText = "복사 완료! ✨";
+      setTimeout(() => {
+        btnText.innerText = originalText;
+      }, 2000);
+    }
+
+    function resetApp() {
+      document.getElementById('favorite-idol').value = '';
+      currentQuestionIndex = 0;
+      userAnswers = [];
+      recommendedSongData = null;
+      showStep('step-intro');
+    }
+  </script>
+</body>
+</html>
