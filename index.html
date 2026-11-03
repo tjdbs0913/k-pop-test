@@ -489,7 +489,7 @@
       });
     }
       document.getElementById('result-artist').innerText = data.artist;
-      document.getElementById('result-lyrics').innerText = `"${data.highlightLyrics}"`;
+      document.getElementById('result-lyrics').innerText = data.moodTags;
       document.getElementById('result-description').innerText = data.curatorComment;
 
       showStep('step-result');
