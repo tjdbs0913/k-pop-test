@@ -418,7 +418,7 @@
         2. 임의로 영문 제목을 한국어로 번역하거나, 한국어 제목을 영어로 번역하지 마세요. (예: 세븐틴 노래는 "소용돌이"가 공식 제목이며, '너에게'나 'To You'를 자의적으로 덧붙이거나 번역하면 안 됩니다.)
         3. 아이돌을 입력했다면 해당 아이돌의 타이틀곡 또는 대표 수록곡 중 실제 존재하는 곡을 선정하세요.
         4. 아이돌을 입력하지 않았다면, 1세대부터 5세대까지의 K-POP 곡 중 분위기에 가장 잘 맞는 명곡을 선정하세요.
-        5. 'highlightLyrics'는 반드시 해당 노래에 '실제로 존재하는 공식 가사' 중 가장 대중적인 킬링 파트 1~2줄을 정확히 인용하세요. 절대 가사를 상상하거나 지어내지(환각) 마세요.
+        5. 'moodTags'는 노래 가사가 절대 아닙니다. 이 곡의 분위기와 계절감, 감성을 나타내는 해시태그 3~4개만 작성하세요. (예: #초여름청량 #드라이브송 #몽환하이틴)
 
         반드시 아래 JSON Schema 구조로만 응답하세요.
       `;
@@ -438,10 +438,10 @@
                 artist: { type: "STRING", description: "가수/그룹 공식 활동명 (예: 세븐틴, NewJeans, 태연 등)" },
                 genre: { type: "STRING", description: "장르 및 무드 요약 (예: K-POP • 댄스/팝, K-POP • 감성 R&B)" },
                 themeTitle: { type: "STRING", description: "추천 무드를 표현하는 감성적인 한 줄 카피 (15자 내외)" },
-                highlightLyrics: { type: "STRING", description: "노래의 감성과 분위기를 나타내는 감성 해시태그 3~4개 (예: #청량하이틴 #초여름드라이브 #몽환보컬)" },
+                moodTags: { type: "STRING", description: "노래의 감성과 분위기를 나타내는 감성 해시태그 3~4개 (예: #청량하이틴 #초여름드라이브 #몽환보컬)" },
                 curatorComment: { type: "STRING", description: "이 곡이 왜 사용자에게 어울리는지 설명하는 다정한 큐레이터 코멘트 (2문장 내외)" }
               },
-              required: ["title", "artist", "genre", "themeTitle", "highlightLyrics", "curatorComment"]
+              required: ["title", "artist", "genre", "themeTitle", "moodTags", "curatorComment"]
             }
           }
         };
